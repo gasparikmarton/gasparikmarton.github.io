@@ -106,7 +106,7 @@ function init() {
             }
 
             for (let posX = Math.floor(0 - perspWidth / 2); posX <= perspWidth / 2 - rectWidth / 2; posX += rectWidth) {
-                console.log("cS", columnSize);
+                // console.log("cS", columnSize);
 
                 rectWidth = Math.ceil(Math.random() * scale / 10) * 20 + mininmumScale;
 
@@ -210,13 +210,13 @@ function init() {
         // updateBoxes = (t) => { boxes.forEach((x, i) => { x.rotation.y = t * (Math.PI / 2) }) }
 
         // console.log("posX=" + posX);
-        console.log("rectWidth=" + rectWidth);
-        console.log("boxPos=", boxPositions);
-        console.log("boxScale=", boxScales);
-        console.log("boxColors", boxColors);
+        // console.log("rectWidth=" + rectWidth);
+        // console.log("boxPos=", boxPositions);
+        // console.log("boxScale=", boxScales);
+        // console.log("boxColors", boxColors);
 
 
-        console.log("boxes=", boxes)
+        // console.log("boxes=", boxes)
         buffTest.computeVertexNormals();
 
 
@@ -277,7 +277,7 @@ function animate() {
         //     INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
         //     INTERSECTED.material.emissive.setHex(0xff0000);
 
-        console.log("inter=", intersects.length)
+        //console.log("inter=", intersects.length)
 
         // }
     } else {
@@ -313,7 +313,6 @@ function animate() {
 
 // Render Loop
 function render() {
-    requestAnimationFrame(render);
     // pointLight.position.set(pointer.x, pointer.y, 0);
 
 
