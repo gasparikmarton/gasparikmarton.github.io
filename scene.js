@@ -23,6 +23,7 @@ let numOfBoxes;
 // INTERSECTION
 let raycaster;
 let INTERSECTED;
+let intersected_id;
 
 
 // UPDATE
@@ -193,6 +194,8 @@ function init() {
 
             x.material.color.set(boxColors[i]);
 
+            x.box_id = i
+
             scene.add(x);
 
             x.position.set(boxPositions[i].x, boxPositions[i].y, boxPositions[i].z);
@@ -290,7 +293,13 @@ function animate() {
 
     };
 
-    // };
+    if (INTERSECTED) {
+        intersected_id = INTERSECTED.box_id
+    } else {
+        intersected_id = null
+    }
+
+    console.log(intersected_id)
 
     render();
 
