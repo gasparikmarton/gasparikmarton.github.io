@@ -265,32 +265,28 @@ function animate() {
     const intersects = raycaster.intersectObjects(boxes, false);
 
     if (intersects.length > 0) {
+        // intersects[0].object.material.emissive.setHex(0xff0000);
 
+        if (INTERSECTED != intersects[0].object) {
 
+            if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
 
-        intersects[0].object.material.emissive.setHex(0xff0000);
-        // if (INTERSECTED != intersects[0].object) {
+            INTERSECTED = intersects[0].object;
+            INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
+            INTERSECTED.material.emissive.setHex(0xff0000);
 
-        //     if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
+            // console.log("inter=", intersects.length)
 
-        //     INTERSECTED = intersects[0].object;
-        //     INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-        //     INTERSECTED.material.emissive.setHex(0xff0000);
-
-        //console.log("inter=", intersects.length)
-
-        // }
+        }
     } else {
 
 
-        // intersects[0].object.material.emissive.setHex(0xfff000);
+        if (INTERSECTED) {
+            INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
 
-        // if (INTERSECTED) {
-        //     INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
+            INTERSECTED = null;
 
-        //     INTERSECTED = null;
-
-        // }
+        }
 
     };
 
