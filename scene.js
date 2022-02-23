@@ -4,7 +4,7 @@ import { TextGeometry } from './lib/TextGeometry.js';
 import { Vector3 } from './lib/three.module.js';
 
 // SETUP
-let camera, scene, pointLight, renderer, stats;
+let camera, scene, pointLightActive, renderer, stats;
 let fov, dist;
 let perspWidth, perspHeight;
 let pointer = new THREE.Vector2();
@@ -15,6 +15,9 @@ let framingSize = 50;
 let rowSize = 30;
 let rectWidth = 0;
 let columnSize = 0;
+
+let boxPositions = [];
+let boxScales = [];
 
 let buffTest;
 let boxes;
@@ -28,6 +31,14 @@ let intersected_id;
 
 // UPDATE
 function updateBoxes() { };
+
+
+// TEXT
+let textGeo;
+let font;
+let boxTexts;
+let text;
+let pages = ['ABOUT', 'PROJECTION \nMapping', 'EVENTS', 'NEW \n MEDIA', 'SOCIAL', 'CONTACT', 'LINK'];
 
 
 
@@ -54,19 +65,36 @@ function init() {
     // 
 
     //LIGHT
-    var ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
-    pointLight = new THREE.PointLight(0xc9efff, 0.5);
+    var ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
 
-    pointLight.castShadow = true;
-    pointLight.shadow.mapSize.width = 512;
-    pointLight.shadow.mapSize.height = 512;
-    pointLight.shadow.camera.near = 0.5;
-    pointLight.shadow.camera.far = 600;
-    scene.add(pointLight, ambientLight);
+
+    let pointLightStatic = new THREE.PointLight(0xffffff, 1, 1000);
+
+    pointLightStatic.position.set(0, 0, 150);
+    pointLightStatic.power = 4;
+
+    pointLightStatic.castShadow = false;
+    pointLightStatic.shadow.mapSize.width = 1024;
+    pointLightStatic.shadow.mapSize.height = 1024;
+    pointLightStatic.shadow.camera.near = 0.5;
+    pointLightStatic.shadow.camera.far = 600;
+
+
+
+    pointLightActive = new THREE.PointLight(0xc9efff, 0.5);
+
+    pointLightActive.castShadow = true;
+    pointLightActive.shadow.mapSize.width = 512;
+    pointLightActive.shadow.mapSize.height = 512;
+    pointLightActive.shadow.camera.near = 0.5;
+    pointLightActive.shadow.camera.far = 600;
+
+
+    scene.add(pointLightActive, ambientLight, pointLightStatic);
 
     const sphereSize = 1;
-    const pointLightHelper = new THREE.PointLightHelper(pointLight, sphereSize);
-    scene.add(pointLightHelper);
+    const pointLightActiveHelper = new THREE.PointLightHelper(pointLightActive, sphereSize);
+    scene.add(pointLightActiveHelper);
     // 
 
     const size = 1000;
@@ -92,10 +120,8 @@ function init() {
 
 
     function planar() {
-        let mininmumScale = 40;
-        let scale = 126;
-        let boxPositions = [];
-        let boxScales = [];
+        let mininmumScale = 60;
+        let scale = 60;
         let boxColors = [];
         let color;
 
@@ -120,6 +146,7 @@ function init() {
 
         }
         numOfBoxes = boxPositions.length;
+
         // GEO
         buffTest = new THREE.BufferGeometry();
 
@@ -186,7 +213,7 @@ function init() {
         // MESH
         boxes = new Array(numOfBoxes)
             .fill(null)
-            .map(() => new THREE.Mesh(buffTest, new THREE.MeshLambertMaterial({})));
+            .map(() => new THREE.Mesh(buffTest, new THREE.MeshPhongMaterial({})));
 
         boxes.forEach((x, i) => {
             x.castShadow = true;
@@ -208,18 +235,6 @@ function init() {
             scene.add(vnh);
 
         });
-
-
-        // updateBoxes = (t) => { boxes.forEach((x, i) => { x.rotation.y = t * (Math.PI / 2) }) }
-
-        // console.log("posX=" + posX);
-        // console.log("rectWidth=" + rectWidth);
-        // console.log("boxPos=", boxPositions);
-        // console.log("boxScale=", boxScales);
-        // console.log("boxColors", boxColors);
-
-
-        // console.log("boxes=", boxes)
         buffTest.computeVertexNormals();
 
 
@@ -228,20 +243,68 @@ function init() {
     };
 
 
+
+    // TEXT
+
+
+    const loader = new FontLoader();
+    loader.load('./lib/fonts/helvetiker_regular.typeface.json', function (font) {
+
+
+
+        boxTexts = new Array(numOfBoxes)
+            .fill(null)
+            .map(() => new THREE.Mesh(new TextGeometry('fasz', {
+                font: font,
+                size: 1,
+                height: 1,
+                // curveSegments: 12,
+                // bevelEnabled: true,
+                // bevelThickness: 0.1,
+                // bevelSize: 0.1,
+                // bevelOffset: 0,
+                // bevelSegments: 5
+            }),
+                new THREE.MeshPhongMaterial({ color: 0xffffff })))
+
+
+        boxTexts.forEach((x, i) => {
+            x.text = pages[i];
+
+            x.castShadow = true;
+            x.receiveShadow = true;
+
+            scene.add(x);
+
+            x.geometry.computeBoundingBox();
+
+
+            x.scale.set(boxScales[i].x / 10, boxScales[i].y / 10, boxScales[i].z / 10);
+            x.position.set(boxPositions[i].x - boxScales[i].x / 10 * 2, boxPositions[i].y, boxPositions[i].z);
+
+
+        })
+
+
+
+    });
+
+
+
     planar();
 
 
-    function spherer(x, y) {
-        const geometry = new THREE.SphereGeometry(6, 32, 6);
-        const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-        const sphere = new THREE.Mesh(geometry, material);
-        scene.add(sphere);
-        sphere.position.set(x, y, 20);
-    }
-    spherer(0, 0);
-    spherer(-perspWidth / 2, perspHeight / 2)
+    // function spherer(x, y) {
+    //     const geometry = new THREE.SphereGeometry(6, 32, 6);
+    //     const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+    //     const sphere = new THREE.Mesh(geometry, material);
+    //     scene.add(sphere);
+    //     sphere.position.set(x, y, 20);
 
-    animate();
+
+    // }
+    // spherer(0, 0);
+    // spherer(-perspWidth / 2, perspHeight / 2)
 
 
 
@@ -268,24 +331,24 @@ function animate() {
     const intersects = raycaster.intersectObjects(boxes, false);
 
     if (intersects.length > 0) {
-        // intersects[0].object.material.emissive.setHex(0xff0000);
+
 
         if (INTERSECTED != intersects[0].object) {
 
-            if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
+            if (INTERSECTED) INTERSECTED.material.color.setHex(INTERSECTED.currentHex);
 
             INTERSECTED = intersects[0].object;
-            INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
-            INTERSECTED.material.emissive.setHex(0xff0000);
+            INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
+            INTERSECTED.material.color.setHex(0xff0000);
 
-            // console.log("inter=", intersects.length)
+
 
         }
     } else {
 
 
         if (INTERSECTED) {
-            INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
+            INTERSECTED.material.color.setHex(INTERSECTED.currentHex);
 
             INTERSECTED = null;
 
@@ -318,7 +381,7 @@ function animate() {
 
 // Render Loop
 function render() {
-    // pointLight.position.set(pointer.x, pointer.y, 0);
+    // pointLightActive.position.set(pointer.x, pointer.y, 0);
 
 
 
@@ -335,23 +398,13 @@ function onPointerMove(event) {
     pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
     pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
-    pointLight.position.set(pointer.x * perspWidth / 2, pointer.y * perspHeight / 2, 50);
+    pointLightActive.position.set(pointer.x * perspWidth / 2, pointer.y * perspHeight / 2, dist / 8);
 }
 
 
 
-function loadFont() {
 
-    const loader = new FontLoader();
-    loader.load('fonts/' + fontName + '_' + fontWeight + '.typeface.json', function (response) {
 
-        font = response;
-
-        refreshText();
-
-    });
-
-}
 
 function onWindowResize() {
 
@@ -361,3 +414,5 @@ function onWindowResize() {
     renderer.setSize(window.innerWidth, window.innerHeight);
 
 }
+
+
