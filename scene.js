@@ -25,7 +25,7 @@ let boxes;
 let numOfBoxes;
 
 // INTERSECTION
-let raycaster;
+// let raycaster;
 let INTERSECTED;
 let intersected_id;
 
@@ -42,7 +42,7 @@ let boxTexts;
 let text;
 let pages = ['ABOUT', 'PROJECTION \nMapping', 'EVENTS', 'NEW \nMEDIA', 'SOCIAL', 'CONTACT', 'LINK ', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE'];
 let links = [{
-    URL: "http://yahoo.com"
+    URL: "portfolio-ABOUT.html"
 }, { URL: "http://instagram.com" }];
 
 let textBB = [];
@@ -245,7 +245,7 @@ function init() {
         buffTest.computeVertexNormals();
 
 
-        raycaster = new THREE.Raycaster();
+
         console.log("objects=", boxes)
     };
 
@@ -261,34 +261,34 @@ function init() {
 
             boxTexts = new Array(numOfBoxes)
                 .fill(null)
-            // .map(() => new THREE.Mesh(new TextGeometry('fasz', {
-            //     font: font,
-            //     size: 1,
-            //     height: 1,
-            //     // curveSegments: 12,
-            //     // bevelEnabled: true,
-            //     // bevelThickness: 0.1,
-            //     // bevelSize: 0.1,
-            //     // bevelOffset: 0,
-            //     // bevelSegments: 5
-            // }),
-            //     new THREE.MeshPhongMaterial({ color: 0xffffff })))
+                .map((x, i) => new THREE.Mesh(new TextGeometry(pages[i], {
+                    font: font,
+                    size: 1,
+                    height: 1,
+                    // curveSegments: 12,
+                    // bevelEnabled: true,
+                    // bevelThickness: 0.1,
+                    // bevelSize: 0.1,
+                    // bevelOffset: 0,
+                    // bevelSegments: 5
+                }),
+                    new THREE.MeshPhongMaterial({ color: 0xffffff })))
 
 
             boxTexts.forEach((x, i) => {
 
-                x = new THREE.Mesh(new TextGeometry(pages[i], {
-                    font: font,
-                    size: 1,
-                    height: 1,
-                    curveSegments: 16,
-                    bevelEnabled: true,
-                    bevelThickness: 0.05,
-                    bevelSize: 0.06,
-                    bevelOffset: 0,
-                    bevelSegments: 10
-                }),
-                    new THREE.MeshPhongMaterial({ color: 0xffffff }));
+                // x = new THREE.Mesh(new TextGeometry(pages[i], {
+                //     font: font,
+                //     size: 1,
+                //     height: 1,
+                //     curveSegments: 16,
+                //     bevelEnabled: true,
+                //     bevelThickness: 0.05,
+                //     bevelSize: 0.06,
+                //     bevelOffset: 0,
+                //     bevelSegments: 10
+                // }),
+                //     new THREE.MeshPhongMaterial({ color: 0xffffff }));
                 text = pages[i];
 
                 x.geometry.center();
@@ -313,10 +313,10 @@ function init() {
 
         });
     }
-
-
     updateTexts();
+
     planar();
+
 
 
     // function spherer(x, y) {
@@ -351,7 +351,7 @@ function init() {
 function animate() {
 
     requestAnimationFrame(animate);
-
+    let raycaster = new THREE.Raycaster();
     raycaster.setFromCamera(pointer, camera);
 
     // BOX INTERSEX
@@ -362,16 +362,25 @@ function animate() {
 
         if (INTERSECTED != intersects[0].object) {
 
-            if (INTERSECTED) INTERSECTED.material.color.setHex(INTERSECTED.currentHex);
+            if (INTERSECTED) {
+                INTERSECTED.material.color.setHex(INTERSECTED.currentHex);
 
+                INTERSECTED.position.z = 20;
+                boxTexts[INTERSECTED.box_id].position.z = 40;
+            }
             INTERSECTED = intersects[0].object;
             INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
             INTERSECTED.material.color.setHex(0xff0000);
 
+            console.log("bT", boxTexts);
+
+            INTERSECTED.position.z = 40;
+            boxTexts[INTERSECTED.box_id].position.z = 100;
 
 
 
         }
+
     } else {
 
 
@@ -383,6 +392,7 @@ function animate() {
         }
 
     };
+
 
     if (INTERSECTED) {
         intersected_id = INTERSECTED.box_id
@@ -433,15 +443,22 @@ function onPointerMove(event) {
 
 function onDocumentMouseDown(event) {
     event.preventDefault();
-    var vector = new THREE.Vector3((event.clientX / window.innerWidth) * 2 -
-        1, -(event.clientY / window.innerHeight) * 2 + 1, 0.5);
-    // projector.unprojectVector(vector, camera);
-    var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position)
-        .normalize());
-    var intersects = raycaster.intersectObjects(boxes);
-    if (intersects.length > 0) {
-        window.open(intersects[0].object.userData);
+    // var vector = new THREE.Vector3((event.clientX / window.innerWidth) * 2 -
+    //     1, -(event.clientY / window.innerHeight) * 2 + 1, 0.5);
+    // // projector.unprojectVector(vector, camera);
+    // var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position)
+    //     .normalize());
+    // var intersects = raycaster.intersectObjects(boxes);
+    // // if (intersects.length > 0) {
+    // //     window.open(intersects[0].object.userData.URL);
+    // // }
+
+    if (intersected_id !== null) {
+        window.open(boxes[intersected_id].userData.URL)
     }
+
+    console.log("object=", intersects[0].object)
+    console.log("asd", boxes[intersected_id])
 }
 
 
