@@ -41,7 +41,9 @@ let font;
 let boxTexts;
 let text;
 let pages = ['ABOUT', 'PROJECTION \nMapping', 'EVENTS', 'NEW \nMEDIA', 'SOCIAL', 'CONTACT', 'LINK ', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE'];
-let links = [{ URL: "http://stackoverflow.com" }, { URL: "http://instagram.com" }];
+let links = [{
+    URL: "http://yahoo.com"
+}, { URL: "http://instagram.com" }];
 
 let textBB = [];
 
@@ -282,7 +284,7 @@ function init() {
                     curveSegments: 16,
                     bevelEnabled: true,
                     bevelThickness: 0.05,
-                    bevelSize: 0.1,
+                    bevelSize: 0.06,
                     bevelOffset: 0,
                     bevelSegments: 10
                 }),
@@ -335,7 +337,7 @@ function init() {
     window.addEventListener('resize', onWindowResize);
     document.body.appendChild(renderer.domElement);
     document.addEventListener('pointermove', onPointerMove);
-    document.addEventListener('click', onClick);
+    document.addEventListener('mousedown', onDocumentMouseDown);
 
 };
 
@@ -393,20 +395,10 @@ function animate() {
 
 
 
+
     render();
 
 };
-
-
-
-
-
-
-
-
-
-
-
 
 // Render Loop
 function render() {
@@ -430,16 +422,27 @@ function onPointerMove(event) {
     pointLightActive.position.set(pointer.x * perspWidth / 2, pointer.y * perspHeight / 2, dist / 8);
 };
 
-function onClick(event) {
+// function onClick(event) {
 
+//     event.preventDefault();
+
+//     pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+//     pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+// };
+
+function onDocumentMouseDown(event) {
     event.preventDefault();
-
-    pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
-    pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
-
-};
-
-
+    var vector = new THREE.Vector3((event.clientX / window.innerWidth) * 2 -
+        1, -(event.clientY / window.innerHeight) * 2 + 1, 0.5);
+    // projector.unprojectVector(vector, camera);
+    var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position)
+        .normalize());
+    var intersects = raycaster.intersectObjects(boxes);
+    if (intersects.length > 0) {
+        window.open(intersects[0].object.userData);
+    }
+}
 
 
 function onWindowResize() {
