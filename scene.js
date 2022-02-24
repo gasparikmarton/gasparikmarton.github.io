@@ -41,7 +41,7 @@ let font;
 let boxTexts;
 let text;
 let pages = ['ABOUT', 'PROJECTION \nMapping', 'EVENTS', 'NEW \nMEDIA', 'SOCIAL', 'CONTACT', 'LINK ', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE'];
-let links = [];
+let links = [{ URL: "http://stackoverflow.com" }, { URL: "http://instagram.com" }];
 
 let textBB = [];
 
@@ -234,6 +234,8 @@ function init() {
             x.geometry.computeVertexNormals();
             x.geometry.normalizeNormals();
 
+            x.userData = links[i];
+
             let vnh = new VertexNormalsHelper(x, 50);
             scene.add(vnh);
 
@@ -242,7 +244,7 @@ function init() {
 
 
         raycaster = new THREE.Raycaster();
-
+        console.log("objects=", boxes)
     };
 
 
