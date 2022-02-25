@@ -32,7 +32,7 @@ let intersected_id;
 
 // UPDATE
 function updateBoxes() { };
-function updateTexts() { };
+// function updateTexts() { };
 
 
 // TEXT
@@ -253,7 +253,7 @@ function init() {
 
     // TEXT
 
-    updateTexts = (t) => {
+    let updateTexts = () => {
         const loader = new FontLoader();
         loader.load('./lib/fonts/helvetiker_regular.typeface.json', function (font) {
 
@@ -313,9 +313,11 @@ function init() {
 
         });
     }
-    updateTexts();
 
+    updateTexts();
     planar();
+
+
 
 
 
@@ -412,17 +414,11 @@ function animate() {
 
 // Render Loop
 function render() {
-    // pointLightActive.position.set(pointer.x, pointer.y, 0);
 
-
-
-
-
-    // Render the scene
     renderer.render(scene, camera);
 };
 
-// render();
+
 
 
 function onPointerMove(event) {
@@ -432,27 +428,9 @@ function onPointerMove(event) {
     pointLightActive.position.set(pointer.x * perspWidth / 2, pointer.y * perspHeight / 2, dist / 8);
 };
 
-// function onClick(event) {
-
-//     event.preventDefault();
-
-//     pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
-//     pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
-
-// };
 
 function onDocumentMouseDown(event) {
     event.preventDefault();
-    // var vector = new THREE.Vector3((event.clientX / window.innerWidth) * 2 -
-    //     1, -(event.clientY / window.innerHeight) * 2 + 1, 0.5);
-    // // projector.unprojectVector(vector, camera);
-    // var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position)
-    //     .normalize());
-    // var intersects = raycaster.intersectObjects(boxes);
-    // // if (intersects.length > 0) {
-    // //     window.open(intersects[0].object.userData.URL);
-    // // }
-
     if (intersected_id !== null) {
         window.open(boxes[intersected_id].userData.URL)
     }
