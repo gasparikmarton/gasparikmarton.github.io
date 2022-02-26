@@ -8,7 +8,8 @@ let camera, scene, pointLightActive, renderer, stats;
 let fov, dist;
 let perspWidth, perspHeight;
 let pointer = new THREE.Vector2();
-let clock = new THREE.Clock;
+let clock = new THREE.Clock({ autoStart: false });
+
 
 // BOXES
 let framingSize = 50;
@@ -42,7 +43,7 @@ let boxTexts;
 let text;
 let pages = ['ABOUT', 'PROJECTION \nMapping', 'EVENTS', 'NEW \nMEDIA', 'SOCIAL', 'CONTACT', 'LINK ', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE'];
 let links = [{
-    URL: "portfolio-ABOUT.html"
+    URL: "about.html"
 }, { URL: "http://instagram.com" }];
 
 let textBB = [];
@@ -70,10 +71,10 @@ function init() {
     // 
 
     //LIGHT
-    var ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
+    var ambientLight = new THREE.AmbientLight(0xffffff, 0.01);
 
 
-    let pointLightStatic = new THREE.PointLight(0xffffff, 1, 1000);
+    let pointLightStatic = new THREE.PointLight('#ffffff', 1, 1000);
 
     pointLightStatic.position.set(0, 0, 150);
     pointLightStatic.power = 4;
@@ -86,26 +87,23 @@ function init() {
 
 
 
-    pointLightActive = new THREE.PointLight(0xc9efff, 0.5);
+    pointLightActive = new THREE.SpotLight(0xff0000, 0.5, 1000, Math.PI / 4, 0.5);
+
+    pointLightActive.target.position.set(pointLightActive.position.x, pointLightActive.position.y, 0);
 
     pointLightActive.castShadow = true;
-    pointLightActive.shadow.mapSize.width = 512;
-    pointLightActive.shadow.mapSize.height = 512;
+    pointLightActive.shadow.mapSize.width = 1024;
+    pointLightActive.shadow.mapSize.height = 1024;
     pointLightActive.shadow.camera.near = 0.5;
     pointLightActive.shadow.camera.far = 600;
 
 
-    scene.add(pointLightActive, ambientLight, pointLightStatic);
+    scene.add(pointLightActive, pointLightActive.target, ambientLight, pointLightStatic);
 
     const sphereSize = 1;
     const pointLightActiveHelper = new THREE.PointLightHelper(pointLightActive, sphereSize);
     scene.add(pointLightActiveHelper);
     // 
-
-    const size = 1000;
-    const divisions = 10;
-
-
 
 
     // RENDERER
@@ -121,24 +119,27 @@ function init() {
 
 
 
-    let colors = ['#f0114f', '#f7943a', '#8b39ef', '#3893fc', '#56e388'];
+    let colors = [/*'	#000000', '#7b7d7b', '#969696', '#bfbfbf',*/ '#ffffff'];
 
 
     function planar() {
-        let mininmumScale = 60;
+        let mininmumScale = 40;
         let scale = 60;
         let boxColors = [];
+        let distFromEdge = 50;
         let color;
 
 
-        for (let posY = Math.floor(perspHeight / 2); posY >= -perspHeight / 2 + columnSize / 2; posY -= columnSize) {
+        for (let posY = Math.floor(perspHeight / 2) - distFromEdge; posY >= -perspHeight / 2 + columnSize / 2 + distFromEdge; posY -= columnSize) {
             columnSize = Math.ceil(Math.random() * scale / 10) * 20 + mininmumScale;
-            if (posY - columnSize < -perspHeight / 2) {
-                columnSize = -1 * (-perspHeight / 2 + posY)
+            if (posY - columnSize <= -perspHeight / 2 + distFromEdge) {
+                columnSize = (-1 * (-perspHeight / 2 + distFromEdge + posY))
             }
 
-            for (let posX = Math.floor(0 - perspWidth / 2); posX <= perspWidth / 2 - rectWidth / 2; posX += rectWidth) {
-                // console.log("cS", columnSize);
+            for (let posX = Math.floor(0 - perspWidth / 2) + distFromEdge; posX <= perspWidth / 2 - rectWidth / 2 - distFromEdge; posX += rectWidth) {
+                if (posX + rectWidth > perspWidth / 2 - distFromEdge) {
+                    rectWidth = perspWidth / 2 - posX - distFromEdge
+                }
 
                 rectWidth = Math.ceil(Math.random() * scale / 10) * 20 + mininmumScale;
 
@@ -238,8 +239,8 @@ function init() {
 
             x.userData = links[i];
 
-            let vnh = new VertexNormalsHelper(x, 50);
-            scene.add(vnh);
+            // let vnh = new VertexNormalsHelper(x, 50);
+            // scene.add(vnh);
 
         });
         buffTest.computeVertexNormals();
@@ -265,29 +266,18 @@ function init() {
                     font: font,
                     size: 1,
                     height: 1,
-                    // curveSegments: 12,
+                    curveSegments: 12,
                     // bevelEnabled: true,
-                    // bevelThickness: 0.1,
-                    // bevelSize: 0.1,
+                    // bevelThickness: 0.05,
+                    // bevelSize: 0.05,
                     // bevelOffset: 0,
-                    // bevelSegments: 5
+                    // bevelSegments: 6
                 }),
-                    new THREE.MeshPhongMaterial({ color: 0xffffff })))
+                    new THREE.MeshPhongMaterial({ color: 0xffffff, wireframe: false, opacity: 0, transparent: true })))
 
 
             boxTexts.forEach((x, i) => {
 
-                // x = new THREE.Mesh(new TextGeometry(pages[i], {
-                //     font: font,
-                //     size: 1,
-                //     height: 1,
-                //     curveSegments: 16,
-                //     bevelEnabled: true,
-                //     bevelThickness: 0.05,
-                //     bevelSize: 0.06,
-                //     bevelOffset: 0,
-                //     bevelSegments: 10
-                // }),
                 //     new THREE.MeshPhongMaterial({ color: 0xffffff }));
                 text = pages[i];
 
@@ -346,9 +336,9 @@ function init() {
 
 
 
-
-
 function animate() {
+
+
 
     requestAnimationFrame(animate);
     let raycaster = new THREE.Raycaster();
@@ -365,17 +355,16 @@ function animate() {
             if (INTERSECTED) {
                 INTERSECTED.material.color.setHex(INTERSECTED.currentHex);
 
-                INTERSECTED.position.z = 20;
-                boxTexts[INTERSECTED.box_id].position.z = 40;
+                INTERSECTED.position.z = 0;
             }
             INTERSECTED = intersects[0].object;
             INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
-            INTERSECTED.material.color.setHex(0xff0000);
+            INTERSECTED.material.color.setHex(0xFFFFFF);
 
             console.log("bT", boxTexts);
 
-            INTERSECTED.position.z = 40;
-            boxTexts[INTERSECTED.box_id].position.z = 100;
+            INTERSECTED.position.z = 0;
+
 
 
 
@@ -387,11 +376,29 @@ function animate() {
         if (INTERSECTED) {
             INTERSECTED.material.color.setHex(INTERSECTED.currentHex);
 
+            INTERSECTED.position.z = 0;
+
+
+
             INTERSECTED = null;
+
 
         }
 
     };
+
+    if (INTERSECTED) {
+        clock.autoStart = true;
+        boxTexts[INTERSECTED.box_id].position.z = + Math.sin(clock.getElapsedTime() * 0.5) * 20;
+        boxTexts[INTERSECTED.box_id].rotation.z = + Math.sin(clock.getElapsedTime() * 0.5) * 0.1;
+
+    }
+    else {
+        clock.autoStart = false;
+    }
+
+    console.log(clock.running)
+
 
 
     if (INTERSECTED) {
@@ -429,32 +436,21 @@ function onPointerMove(event) {
     pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
     pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
-    pointLightActive.position.set(pointer.x * perspWidth / 2, pointer.y * perspHeight / 2, dist / 8);
+    pointLightActive.position.set(pointer.x * perspWidth / 2, pointer.y * perspHeight / 2, dist / 4);
+    // pointLightActive.position.set(0, 0, dist / 4);
+    pointLightActive.target.position.set(pointer.x * perspWidth / 2, pointer.y * perspHeight / 2, 0);
 };
 
-// function onClick(event) {
-
-//     event.preventDefault();
-
-//     pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
-//     pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
-
-// };
 
 function onDocumentMouseDown(event) {
     event.preventDefault();
-    // var vector = new THREE.Vector3((event.clientX / window.innerWidth) * 2 -
-    //     1, -(event.clientY / window.innerHeight) * 2 + 1, 0.5);
-    // // projector.unprojectVector(vector, camera);
-    // var raycaster = new THREE.Raycaster(camera.position, vector.sub(camera.position)
-    //     .normalize());
-    // var intersects = raycaster.intersectObjects(boxes);
-    // // if (intersects.length > 0) {
-    // //     window.open(intersects[0].object.userData.URL);
-    // // }
+
 
     if (intersected_id !== null) {
         window.open(boxes[intersected_id].userData.URL)
+    }
+    else {
+        console.log('FuckYou')
     }
 
     console.log("object=", intersects[0].object)
