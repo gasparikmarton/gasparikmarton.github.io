@@ -44,8 +44,6 @@ let text;
 let pages = ['ABOUT', 'PROJECTION \nMapping', 'EVENTS', 'NEW \nMEDIA', 'SOCIAL', 'CONTACT', 'LINK ', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE'];
 let links = [{
     URL: "about.html"
-}, { URL: "http://instagram.com" }, {
-    URL: "about.html"
 }, {
     URL: "about.html"
 }, {
