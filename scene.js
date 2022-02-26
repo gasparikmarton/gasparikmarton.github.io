@@ -44,12 +44,34 @@ let text;
 let pages = ['ABOUT', 'PROJECTION \nMapping', 'EVENTS', 'NEW \nMEDIA', 'SOCIAL', 'CONTACT', 'LINK ', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE'];
 let links = [{
     URL: "about.html"
-}, { URL: "http://instagram.com" }];
+}, { URL: "http://instagram.com" }, {
+    URL: "about.html"
+}, {
+    URL: "about.html"
+}, {
+    URL: "about.html"
+}, {
+    URL: "about.html"
+}, {
+    URL: "about.html"
+}, {
+    URL: "about.html"
+}, {
+    URL: "about.html"
+}, {
+    URL: "about.html"
+}, {
+    URL: "about.html"
+}, {
+    URL: "about.html"
+}, {
+    URL: "about.html"
+},];
 
 let textBB = [];
 
 init();
-animate();
+// animate();
 
 function init() {
 
@@ -123,8 +145,8 @@ function init() {
 
 
     function planar() {
-        let mininmumScale = 40;
-        let scale = 60;
+        let mininmumScale = perspWidth / 16;
+        let scale = perspWidth / 10;
         let boxColors = [];
         let distFromEdge = 50;
         let color;
@@ -146,7 +168,7 @@ function init() {
                 boxColors.push(colors[Math.floor(Math.random() * colors.length)]);
 
                 boxPositions.push(new THREE.Vector3(posX + rectWidth / 2, posY - columnSize / 2, 0));
-                boxScales.push(new THREE.Vector3(rectWidth * 0.99, columnSize * 0.99, 50));
+                boxScales.push(new THREE.Vector3(rectWidth * 0.99, columnSize * 0.99, 20));
                 // boxScales.push(new THREE.Vector3(1, 1, 1));
             }
 
@@ -292,7 +314,7 @@ function init() {
 
 
                 x.scale.set(boxScales[i].x / 10, boxScales[i].y / 10, boxScales[i].z / 10);
-                x.position.set(boxPositions[i].x, boxPositions[i].y, boxPositions[i].z);
+                x.position.set(boxPositions[i].x, boxPositions[i].y, boxPositions[i].z + 10);
 
 
 
@@ -328,6 +350,8 @@ function init() {
     document.body.appendChild(renderer.domElement);
     document.addEventListener('pointermove', onPointerMove);
     document.addEventListener('mousedown', onDocumentMouseDown);
+
+    animate();
 
 };
 
@@ -389,8 +413,8 @@ function animate() {
 
     if (INTERSECTED) {
         clock.autoStart = true;
-        boxTexts[INTERSECTED.box_id].position.z = + Math.sin(clock.getElapsedTime() * 0.5) * 20;
-        boxTexts[INTERSECTED.box_id].rotation.z = + Math.sin(clock.getElapsedTime() * 0.5) * 0.1;
+        boxTexts[INTERSECTED.box_id].position.z = + Math.sin(clock.getElapsedTime() * 0.5) * 9;
+        boxTexts[INTERSECTED.box_id].rotation.z = + Math.sin(clock.getElapsedTime() * 0.6) * 0.1;
 
     }
     else {
