@@ -2,6 +2,7 @@ import { FontLoader } from './lib/FontLoader.js';
 import { VertexNormalsHelper } from './lib/VertexNormalsHelper.js';
 import { TextGeometry } from './lib/TextGeometry.js';
 import { Vector3 } from './lib/three.module.js';
+// import { MathUtils } from './lib/MathUtils';
 
 // SETUP
 let camera, scene, pointLightActive, renderer, stats;
@@ -9,6 +10,7 @@ let fov, dist;
 let perspWidth, perspHeight;
 let pointer = new THREE.Vector2();
 let clock = new THREE.Clock({ autoStart: false });
+let camPos;
 
 
 // BOXES
@@ -41,8 +43,24 @@ let textGeo;
 let font;
 let boxTexts;
 let text;
-let pages = ['ABOUT', 'PROJECTION \nMapping', 'EVENTS', 'NEW \nMEDIA', 'SOCIAL', 'CONTACT', 'LINK ', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE'];
+let pages = ['ABOUT', 'PROJECTION \nMapping', 'EVENTS', 'NEW \nMEDIA', 'SOCIAL', 'CONTACT', 'LINK ', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE'];
 let links = [{
+    URL: "about.html"
+}, {
+    URL: "about.html"
+}, {
+    URL: "about.html"
+}, {
+    URL: "about.html"
+}, {
+    URL: "about.html"
+}, {
+    URL: "about.html"
+}, {
+    URL: "about.html"
+}, {
+    URL: "about.html"
+}, {
     URL: "about.html"
 }, {
     URL: "about.html"
@@ -80,6 +98,7 @@ function init() {
     // CAM
     fov = 60;
     dist = 300;
+    camPos = new THREE.Vector3(0, 0, dist);
 
     camera = new THREE.PerspectiveCamera(fov, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = dist;
@@ -91,7 +110,7 @@ function init() {
     // 
 
     //LIGHT
-    var ambientLight = new THREE.AmbientLight(0xffffff, 0.01);
+    var ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
 
 
     let pointLightStatic = new THREE.PointLight('#ffffff', 1, 1000);
@@ -143,26 +162,24 @@ function init() {
 
 
     function planar() {
-        let mininmumScale = perspWidth / 16;
-        let scale = perspWidth / 10;
+        let mininmumScale = perspWidth / 8;
+        let scale = perspWidth / 7;
         let boxColors = [];
         let distFromEdge = 50;
         let color;
 
 
-        for (let posY = Math.floor(perspHeight / 2) - distFromEdge; posY >= -perspHeight / 2 + columnSize / 2 + distFromEdge; posY -= columnSize) {
-            columnSize = Math.ceil(Math.random() * scale / 10) * 20 + mininmumScale;
-            if (posY - columnSize <= -perspHeight / 2 + distFromEdge) {
-                columnSize = (-1 * (-perspHeight / 2 + distFromEdge + posY))
+        for (let posY = Math.floor(perspHeight / 2) - distFromEdge; posY >= -perspHeight / 2 + columnSize + distFromEdge * 2; posY -= columnSize) {
+            columnSize = Math.ceil(randFloat(mininmumScale, scale));
+            if (posY - columnSize - mininmumScale < -perspHeight / 2 + distFromEdge) {
+                columnSize = -1 * (-perspHeight / 2 + distFromEdge + posY)
             }
 
             for (let posX = Math.floor(0 - perspWidth / 2) + distFromEdge; posX <= perspWidth / 2 - rectWidth / 2 - distFromEdge; posX += rectWidth) {
+                rectWidth = Math.ceil(randFloat(mininmumScale * 1.5, scale * 2));
                 if (posX + rectWidth > perspWidth / 2 - distFromEdge) {
                     rectWidth = perspWidth / 2 - posX - distFromEdge
                 }
-
-                rectWidth = Math.ceil(Math.random() * scale / 10) * 20 + mininmumScale;
-
                 boxColors.push(colors[Math.floor(Math.random() * colors.length)]);
 
                 boxPositions.push(new THREE.Vector3(posX + rectWidth / 2, posY - columnSize / 2, 0));
@@ -253,6 +270,7 @@ function init() {
 
             x.position.set(boxPositions[i].x, boxPositions[i].y, boxPositions[i].z);
             x.scale.set(boxScales[i].x, boxScales[i].y, boxScales[i].z);
+
 
             x.geometry.computeVertexNormals();
             x.geometry.normalizeNormals();
@@ -411,8 +429,8 @@ function animate() {
 
     if (INTERSECTED) {
         clock.autoStart = true;
-        boxTexts[INTERSECTED.box_id].position.z = + Math.sin(clock.getElapsedTime() * 0.5) * 9;
-        boxTexts[INTERSECTED.box_id].rotation.z = + Math.sin(clock.getElapsedTime() * 0.6) * 0.1;
+        // boxTexts[INTERSECTED.box_id].position.z = + Math.sin(clock.getElapsedTime() * 0.5) * 9;
+        // boxTexts[INTERSECTED.box_id].rotation.z = + Math.sin(clock.getElapsedTime() * 0.6) * 0.1;
 
     }
     else {
@@ -429,7 +447,7 @@ function animate() {
         intersected_id = null
     }
 
-    console.log("interID=" + intersected_id)
+    // console.log("interID=" + intersected_id)
 
 
 
@@ -458,6 +476,12 @@ function onPointerMove(event) {
     pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
     pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
+    let mousePos = new THREE.Vector3(pointer.x, pointer.y, 0);
+
+    let camRay = new THREE.Ray(camPos, mousePos.normalize);
+
+    console.log("ray=", camRay);
+
     pointLightActive.position.set(pointer.x * perspWidth / 2, pointer.y * perspHeight / 2, dist / 4);
     // pointLightActive.position.set(0, 0, dist / 4);
     pointLightActive.target.position.set(pointer.x * perspWidth / 2, pointer.y * perspHeight / 2, 0);
@@ -471,12 +495,10 @@ function onDocumentMouseDown(event) {
     if (intersected_id !== null) {
         window.open(boxes[intersected_id].userData.URL)
     }
-    else {
-        console.log('FuckYou')
-    }
 
-    console.log("object=", intersects[0].object)
-    console.log("asd", boxes[intersected_id])
+
+    // console.log("object=", intersects[0].object)
+    // console.log("asd", boxes[intersected_id])
 }
 
 
@@ -489,4 +511,9 @@ function onWindowResize() {
 
 }
 
+function randFloat(low, high) {
+
+    return low + Math.random() * (high - low);
+
+}
 
