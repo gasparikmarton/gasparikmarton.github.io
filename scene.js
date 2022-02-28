@@ -188,7 +188,7 @@ function init() {
             }
 
         }
-        console.log(perspWidth / 2)
+        // console.log(perspWidth / 2)
         numOfBoxes = boxPositions.length;
 
         // GEO
@@ -402,14 +402,20 @@ function animate() {
             INTERSECTED = intersects[0].object;
             INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
             INTERSECTED.material.color.setHex(0xFFFFFF);
+            clock.start();
 
+            // if (boxTexts[INTERSECTED.box_id]) {
+            //     INTERSECTED.position.z = 0;
+            //     boxTexts[INTERSECTED.box_id].position.z += Math.sin(clock.getElapsedTime() * 0.5) * 9;
+            //     boxTexts[INTERSECTED.box_id].rotation.z += Math.sin(clock.getElapsedTime() * 0.6) * 0.1;
 
-            if (boxTexts[INTERSECTED.box_id]) {
-                INTERSECTED.position.z = 0;
-                boxTexts[INTERSECTED.box_id].position.z = + Math.sin(clock.getElapsedTime() * 0.5) * 9;
-                boxTexts[INTERSECTED.box_id].rotation.z = + Math.sin(clock.getElapsedTime() * 0.6) * 0.1;
+            // }
+        }
+        if (boxTexts[INTERSECTED.box_id]) {
+            INTERSECTED.position.z = 0;
+            boxTexts[INTERSECTED.box_id].position.z = Math.sin(clock.getElapsedTime() * 0.8) * 9;
+            boxTexts[INTERSECTED.box_id].rotation.z = Math.sin(clock.getElapsedTime() * 0.8) * 0.51;
 
-            }
         }
 
     } else {
@@ -428,6 +434,8 @@ function animate() {
 
         }
     }
+
+
 
 
 
