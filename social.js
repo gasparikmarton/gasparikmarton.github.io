@@ -43,46 +43,14 @@ let textGeo;
 let font;
 let boxTexts = [];
 let text;
-let pages = ['ABOUT', 'PROJECTION \nMapping', 'EVENTS', 'NEW \nMEDIA', 'SOCIAL', 'CONTACT', 'LINK ', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE'];
+let pages = ['Facebook', 'Behance'];
 let links = [{
-    URL: "about.html"
+    URL: "https://www.facebook.com/vizupal"
 }, {
-    URL: "projection_mapping.html"
+    URL: "https://www.behance.net/gasparikmad173"
 }, {
     URL: "events.html"
-}, {
-    URL: "new_media.html"
-}, {
-    URL: "social.html"
-}, {
-    URL: "contact.html"
-}, {
-    URL: "about.html"
-}, {
-    URL: "about.html"
-}, {
-    URL: "about.html"
-}, {
-    URL: "about.html"
-}, {
-    URL: "about.html"
-}, {
-    URL: "about.html"
-}, {
-    URL: "about.html"
-}, {
-    URL: "about.html"
-}, {
-    URL: "about.html"
-}, {
-    URL: "about.html"
-}, {
-    URL: "about.html"
-}, {
-    URL: "about.html"
-}, {
-    URL: "about.html"
-},];
+}];
 
 let textBB = [];
 
@@ -110,15 +78,15 @@ function init() {
     // 
 
     //LIGHT
-    var ambientLight = new THREE.AmbientLight(0xFF0000, 0);
+    var ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
 
 
-    let pointLightStatic = new THREE.PointLight('0xFF0000', 1, 1000);
+    let pointLightStatic = new THREE.PointLight('#ffffff', 1, 1000);
 
     pointLightStatic.position.set(0, 0, 150);
-    pointLightStatic.power = 0;
+    pointLightStatic.power = 4;
 
-    pointLightStatic.castShadow = true;
+    pointLightStatic.castShadow = false;
     pointLightStatic.shadow.mapSize.width = 1024;
     pointLightStatic.shadow.mapSize.height = 1024;
     pointLightStatic.shadow.camera.near = 0.5;
@@ -126,7 +94,7 @@ function init() {
 
 
 
-    pointLightActive = new THREE.SpotLight(0xff0000, 0.5, 1000, Math.PI / 3, 0.5);
+    pointLightActive = new THREE.SpotLight(0xff0000, 0.5, 1000, Math.PI / 4, 0.5);
 
     pointLightActive.target.position.set(pointLightActive.position.x, pointLightActive.position.y, 0);
 
@@ -162,32 +130,24 @@ function init() {
 
 
     function planar() {
-        let mininmumScale = perspWidth / 8;
-        let scale = perspWidth / 7;
+        let mininmumScale = perspWidth / 5;
+        let scale = perspWidth / 4;
         let boxColors = [];
         let distFromEdge = 50;
         let color;
+        let boxCount = 2;
 
 
-        for (let posY = Math.floor(perspHeight / 2) - distFromEdge; posY >= -perspHeight / 2 + columnSize + distFromEdge; posY -= columnSize) {
-            columnSize = Math.ceil(randFloat(mininmumScale, scale));
-            if (posY - columnSize < -perspHeight / 2 + distFromEdge) {
-                columnSize = -1 * (-perspHeight / 2 + distFromEdge + posY)
-            }
+        for (let posX = Math.floor(0 - perspWidth / 2) + distFromEdge; posX <= perspWidth / 2 - rectWidth - distFromEdge; posX += rectWidth) {
+            rectWidth = perspWidth / 2 - distFromEdge;
+            boxColors.push(colors[Math.floor(Math.random() * colors.length)]);
 
-            for (let posX = Math.floor(0 - perspWidth / 2) + distFromEdge; posX <= perspWidth / 2 - rectWidth; posX += rectWidth) {
-                rectWidth = Math.ceil(randFloat(mininmumScale * 1.5, scale * 2));
-                if (posX + rectWidth + mininmumScale > perspWidth / 2 - distFromEdge) {
-                    rectWidth = perspWidth / 2 - posX - distFromEdge / 2
-                }
-                boxColors.push(colors[Math.floor(Math.random() * colors.length)]);
-
-                boxPositions.push(new THREE.Vector3(posX + rectWidth / 2, posY - columnSize / 2, 0));
-                boxScales.push(new THREE.Vector3(rectWidth * 0.99, columnSize * 0.99, 20));
-                // boxScales.push(new THREE.Vector3(1, 1, 1));
-            }
-
+            boxPositions.push(new THREE.Vector3(posX + rectWidth / 2, 0, 0));
+            boxScales.push(new THREE.Vector3(rectWidth * 0.99, rectWidth, 20));
+            // boxScales.push(new THREE.Vector3(1, 1, 1));
         }
+
+
         console.log(perspWidth / 2)
         numOfBoxes = boxPositions.length;
 
@@ -485,9 +445,6 @@ function onDocumentMouseDown(event) {
         window.open(boxes[intersected_id].userData.URL)
     }
 
-
-    // console.log("object=", intersects[0].object)
-    // console.log("asd", boxes[intersected_id])
 }
 
 
@@ -500,10 +457,3 @@ function onWindowResize() {
 
 }
 
-function randFloat(low, high) {
-
-    return low + Math.random() * (high - low);
-
-}
-
-// sdefhkszkldejfs.mjndf
