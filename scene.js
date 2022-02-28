@@ -118,7 +118,7 @@ function init() {
     pointLightStatic.position.set(0, 0, 150);
     pointLightStatic.power = 4;
 
-    pointLightStatic.castShadow = false;
+    pointLightStatic.castShadow = true;
     pointLightStatic.shadow.mapSize.width = 1024;
     pointLightStatic.shadow.mapSize.height = 1024;
     pointLightStatic.shadow.camera.near = 0.5;
@@ -394,8 +394,8 @@ function animate() {
 
             if (INTERSECTED) {
                 INTERSECTED.material.color.setHex(INTERSECTED.currentHex);
-
                 INTERSECTED.position.z = 0;
+
             }
             INTERSECTED = intersects[0].object;
             INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
@@ -404,9 +404,6 @@ function animate() {
 
 
             INTERSECTED.position.z = 0;
-
-
-
 
         }
 
@@ -425,7 +422,17 @@ function animate() {
 
         }
 
-    };
+
+
+        // if (boxTexts[INTERSECTED.box_id]) {
+        //     {
+        //         boxTexts[INTERSECTED.box_id].position.z = + Math.sin(clock.getElapsedTime() * 0.5) * 9;
+        //         boxTexts[INTERSECTED.box_id].rotation.z = + Math.sin(clock.getElapsedTime() * 0.6) * 0.1;
+        //         console.log("fasz");
+        //     }
+        // }
+    }
+
 
 
 
@@ -441,15 +448,7 @@ function animate() {
     }
 
 
-    if (boxTexts[INTERSECTED.box_id]) {
-        if (INTERSECTED) {
-            // clock.autoStart = true;
-            boxTexts[INTERSECTED.box_id].position.z = + Math.sin(clock.getElapsedTime() * 0.5) * 9;
-            boxTexts[INTERSECTED.box_id].rotation.z = + Math.sin(clock.getElapsedTime() * 0.6) * 0.1;
-            // boxTexts[INTERSECTED.box_id].position.set(0, 0, 0);
-            // console.log("interID=", boxTexts[INTERSECTED.box_id])
-        }
-    }
+
 
 
 
@@ -511,3 +510,4 @@ function randFloat(low, high) {
 
 }
 
+// sdefhkszkldejfs.mjndf
