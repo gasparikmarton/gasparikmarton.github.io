@@ -47,15 +47,15 @@ let pages = ['ABOUT', 'PROJECTION \nMapping', 'EVENTS', 'NEW \nMEDIA', 'SOCIAL',
 let links = [{
     URL: "about.html"
 }, {
-    URL: "about.html"
+    URL: "projection_mapping.html"
 }, {
-    URL: "about.html"
+    URL: "events.html"
 }, {
-    URL: "about.html"
+    URL: "new_media.html"
 }, {
-    URL: "about.html"
+    URL: "social.html"
 }, {
-    URL: "about.html"
+    URL: "contact.html"
 }, {
     URL: "about.html"
 }, {
@@ -367,11 +367,11 @@ function init() {
     document.addEventListener('pointermove', onPointerMove);
     document.addEventListener('mousedown', onDocumentMouseDown);
 
-    animate();
+    // animate();
 
 };
 
-
+animate();
 
 
 
@@ -390,11 +390,13 @@ function animate() {
     if (intersects.length > 0) {
 
 
-        if (INTERSECTED != intersects[0].object) {
+        if ((INTERSECTED != intersects[0].object)) {
 
-            if (INTERSECTED) {
+            if (INTERSECTED && boxTexts[INTERSECTED.box_id]) {
                 INTERSECTED.material.color.setHex(INTERSECTED.currentHex);
                 INTERSECTED.position.z = 0;
+                boxTexts[INTERSECTED.box_id].position.z = 0;
+                boxTexts[INTERSECTED.box_id].rotation.z = 0;
 
             }
             INTERSECTED = intersects[0].object;
@@ -402,20 +404,23 @@ function animate() {
             INTERSECTED.material.color.setHex(0xFFFFFF);
 
 
+            if (boxTexts[INTERSECTED.box_id]) {
+                INTERSECTED.position.z = 0;
+                boxTexts[INTERSECTED.box_id].position.z = + Math.sin(clock.getElapsedTime() * 0.5) * 9;
+                boxTexts[INTERSECTED.box_id].rotation.z = + Math.sin(clock.getElapsedTime() * 0.6) * 0.1;
 
-            INTERSECTED.position.z = 10;
-
-
+            }
         }
 
     } else {
 
 
-        if (INTERSECTED) {
+        if (INTERSECTED && boxTexts[INTERSECTED.box_id]) {
             INTERSECTED.material.color.setHex(INTERSECTED.currentHex);
 
             INTERSECTED.position.z = 0;
-
+            boxTexts[INTERSECTED.box_id].position.z = 0;
+            boxTexts[INTERSECTED.box_id].rotation.z = 0;
 
 
             INTERSECTED = null;
@@ -438,13 +443,7 @@ function animate() {
         intersected_id = null
     }
 
-    if (INTERSECTED, boxTexts[INTERSECTED.box_id]) {
-        {
-            boxTexts[INTERSECTED.box_id].position.z = + Math.sin(clock.getElapsedTime() * 0.5) * 9;
-            boxTexts[INTERSECTED.box_id].rotation.z = + Math.sin(clock.getElapsedTime() * 0.6) * 0.1;
-            console.log("fasz");
-        }
-    }
+
 
 
 
