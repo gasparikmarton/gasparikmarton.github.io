@@ -43,7 +43,7 @@ let textGeo;
 let font;
 let boxTexts = [];
 let text;
-let pages = ['ABOUT', 'PROJECTION \nMapping', 'EVENTS', 'NEW \nMEDIA', 'SOCIAL', 'CONTACT', 'LINK ', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE'];
+let pages = ['ABOUT', 'PROJECTION \nMapping', 'EVENTS', 'NEW \nMEDIA', 'SOCIAL', 'CONTACT', 'LINK TO \nSMTH NICE', 'LINK TO \nSMTH NICE', 'LINK TO \n A FRIEND', 'LINK TO \nSMTH NICE', 'LINK TO \n SMTH NICE', 'LINK TO \n A FRIEND', 'LINK TO \nSMTH NICE', 'LINK TO \nSMTH NICE', 'LINK TO \nSMTH NICE', 'LINK TO \nSMTH NICE'];
 let links = [{
     URL: "about.html"
 }, {
@@ -57,27 +57,27 @@ let links = [{
 }, {
     URL: "contact.html"
 }, {
-    URL: "about.html"
+    URL: "https://www.mumush.world/"
 }, {
-    URL: "about.html"
+    URL: "https://www.instagram.com/ctech.filmuniversity/"
 }, {
-    URL: "about.html"
+    URL: "https://soundcloud.com/user-561995087"
 }, {
-    URL: "about.html"
+    URL: "https://www.y8.com/games/slope"
 }, {
-    URL: "about.html"
+    URL: "https://www.youtube.com/c/SoundStationStrategy"
 }, {
-    URL: "about.html"
+    URL: "https://www.facebook.com/R%C3%B6tpot-2312848115652838"
 }, {
-    URL: "about.html"
+    URL: "https://www.instagram.com/totem_of_reflection/"
 }, {
-    URL: "about.html"
+    URL: "https://www.instagram.com/circulowm/"
 }, {
-    URL: "about.html"
+    URL: "https://blackrhinoradio.com/"
 }, {
-    URL: "about.html"
+    URL: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 }, {
-    URL: "about.html"
+    URL: "https://www.instagram.com/ctech.filmuniversity/"
 }, {
     URL: "about.html"
 }, {

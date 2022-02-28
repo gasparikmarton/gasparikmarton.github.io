@@ -189,7 +189,7 @@ function init() {
 
 
 
-            boxTexts = new THREE.Mesh(new TextGeometry('gasparikmart', {
+            boxTexts = new THREE.Mesh(new TextGeometry('gasparikmarton@gmail.com', {
                 font: font,
                 size: 2.5,
                 height: 0.1,
