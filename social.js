@@ -78,13 +78,13 @@ function init() {
     // 
 
     //LIGHT
-    var ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
+    var ambientLight = new THREE.AmbientLight(0xffffff, 0);
 
 
     let pointLightStatic = new THREE.PointLight('#ffffff', 1, 1000);
 
     pointLightStatic.position.set(0, 0, 150);
-    pointLightStatic.power = 4;
+    pointLightStatic.power = 0;
 
     pointLightStatic.castShadow = false;
     pointLightStatic.shadow.mapSize.width = 1024;
@@ -94,7 +94,7 @@ function init() {
 
 
 
-    pointLightActive = new THREE.SpotLight(0xff0000, 0.5, 1000, Math.PI / 4, 0.5);
+    pointLightActive = new THREE.SpotLight(0xff0000, 0.5, 1000, Math.PI / 3, 0.5);
 
     pointLightActive.target.position.set(pointLightActive.position.x, pointLightActive.position.y, 0);
 

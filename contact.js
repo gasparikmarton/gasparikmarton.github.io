@@ -191,7 +191,7 @@ function init() {
 
             boxTexts = new THREE.Mesh(new TextGeometry('gasparikmarton@gmail.com', {
                 font: font,
-                size: 2.5,
+                size: perspWidth / 180,
                 height: 0.1,
                 curveSegments: 12,
                 bevelEnabled: true,

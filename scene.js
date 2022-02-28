@@ -482,7 +482,7 @@ function onDocumentMouseDown(event) {
 
 
     if (intersected_id !== null) {
-        window.open(boxes[intersected_id].userData.URL)
+        window.open(boxes[intersected_id].userData.URL, '_self')
     }
 
 
