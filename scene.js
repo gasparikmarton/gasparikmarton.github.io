@@ -403,7 +403,8 @@ function animate() {
 
 
 
-            INTERSECTED.position.z = 0;
+            INTERSECTED.position.z = 10;
+
 
         }
 
@@ -421,16 +422,6 @@ function animate() {
 
 
         }
-
-
-
-        // if (boxTexts[INTERSECTED.box_id]) {
-        //     {
-        //         boxTexts[INTERSECTED.box_id].position.z = + Math.sin(clock.getElapsedTime() * 0.5) * 9;
-        //         boxTexts[INTERSECTED.box_id].rotation.z = + Math.sin(clock.getElapsedTime() * 0.6) * 0.1;
-        //         console.log("fasz");
-        //     }
-        // }
     }
 
 
@@ -447,7 +438,13 @@ function animate() {
         intersected_id = null
     }
 
-
+    if (INTERSECTED, boxTexts[INTERSECTED.box_id]) {
+        {
+            boxTexts[INTERSECTED.box_id].position.z = + Math.sin(clock.getElapsedTime() * 0.5) * 9;
+            boxTexts[INTERSECTED.box_id].rotation.z = + Math.sin(clock.getElapsedTime() * 0.6) * 0.1;
+            console.log("fasz");
+        }
+    }
 
 
 
