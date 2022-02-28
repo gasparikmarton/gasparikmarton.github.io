@@ -41,7 +41,7 @@ function updateTexts() { };
 // TEXT
 let textGeo;
 let font;
-let boxTexts;
+let boxTexts = [];
 let text;
 let pages = ['ABOUT', 'PROJECTION \nMapping', 'EVENTS', 'NEW \nMEDIA', 'SOCIAL', 'CONTACT', 'LINK ', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE', 'RANDOM \nLINK TO \nSMTH NICE'];
 let links = [{
@@ -139,9 +139,9 @@ function init() {
 
     scene.add(pointLightActive, pointLightActive.target, ambientLight, pointLightStatic);
 
-    const sphereSize = 1;
-    const pointLightActiveHelper = new THREE.PointLightHelper(pointLightActive, sphereSize);
-    scene.add(pointLightActiveHelper);
+    // const sphereSize = 1;
+    // const pointLightActiveHelper = new THREE.PointLightHelper(pointLightActive, sphereSize);
+    // scene.add(pointLightActiveHelper);
     // 
 
 
@@ -169,16 +169,16 @@ function init() {
         let color;
 
 
-        for (let posY = Math.floor(perspHeight / 2) - distFromEdge; posY >= -perspHeight / 2 + columnSize + distFromEdge * 2; posY -= columnSize) {
+        for (let posY = Math.floor(perspHeight / 2) - distFromEdge; posY >= -perspHeight / 2 + columnSize + distFromEdge; posY -= columnSize) {
             columnSize = Math.ceil(randFloat(mininmumScale, scale));
-            if (posY - columnSize - mininmumScale < -perspHeight / 2 + distFromEdge) {
+            if (posY - columnSize < -perspHeight / 2 + distFromEdge) {
                 columnSize = -1 * (-perspHeight / 2 + distFromEdge + posY)
             }
 
-            for (let posX = Math.floor(0 - perspWidth / 2) + distFromEdge; posX <= perspWidth / 2 - rectWidth / 2 - distFromEdge; posX += rectWidth) {
+            for (let posX = Math.floor(0 - perspWidth / 2) + distFromEdge; posX <= perspWidth / 2 - rectWidth; posX += rectWidth) {
                 rectWidth = Math.ceil(randFloat(mininmumScale * 1.5, scale * 2));
-                if (posX + rectWidth > perspWidth / 2 - distFromEdge) {
-                    rectWidth = perspWidth / 2 - posX - distFromEdge
+                if (posX + rectWidth + mininmumScale > perspWidth / 2 - distFromEdge) {
+                    rectWidth = perspWidth / 2 - posX - distFromEdge / 2
                 }
                 boxColors.push(colors[Math.floor(Math.random() * colors.length)]);
 
@@ -188,6 +188,7 @@ function init() {
             }
 
         }
+        console.log(perspWidth / 2)
         numOfBoxes = boxPositions.length;
 
         // GEO
@@ -285,7 +286,7 @@ function init() {
 
 
 
-        console.log("objects=", boxes)
+        // console.log("objects=", boxes)
     };
 
 
@@ -316,7 +317,6 @@ function init() {
 
             boxTexts.forEach((x, i) => {
 
-                //     new THREE.MeshPhongMaterial({ color: 0xffffff }));
                 text = pages[i];
 
                 x.geometry.center();
@@ -401,7 +401,7 @@ function animate() {
             INTERSECTED.currentHex = INTERSECTED.material.color.getHex();
             INTERSECTED.material.color.setHex(0xFFFFFF);
 
-            console.log("bT", boxTexts);
+
 
             INTERSECTED.position.z = 0;
 
@@ -427,17 +427,10 @@ function animate() {
 
     };
 
-    if (INTERSECTED) {
-        clock.autoStart = true;
-        // boxTexts[INTERSECTED.box_id].position.z = + Math.sin(clock.getElapsedTime() * 0.5) * 9;
-        // boxTexts[INTERSECTED.box_id].rotation.z = + Math.sin(clock.getElapsedTime() * 0.6) * 0.1;
 
-    }
-    else {
-        clock.autoStart = false;
-    }
 
-    console.log(clock.running)
+
+    // console.log(clock.running)
 
 
 
@@ -447,9 +440,16 @@ function animate() {
         intersected_id = null
     }
 
-    // console.log("interID=" + intersected_id)
 
-
+    if (boxTexts[INTERSECTED.box_id]) {
+        if (INTERSECTED) {
+            // clock.autoStart = true;
+            boxTexts[INTERSECTED.box_id].position.z = + Math.sin(clock.getElapsedTime() * 0.5) * 9;
+            boxTexts[INTERSECTED.box_id].rotation.z = + Math.sin(clock.getElapsedTime() * 0.6) * 0.1;
+            // boxTexts[INTERSECTED.box_id].position.set(0, 0, 0);
+            // console.log("interID=", boxTexts[INTERSECTED.box_id])
+        }
+    }
 
 
 
@@ -475,12 +475,6 @@ function render() {
 function onPointerMove(event) {
     pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
     pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
-
-    let mousePos = new THREE.Vector3(pointer.x, pointer.y, 0);
-
-    let camRay = new THREE.Ray(camPos, mousePos.normalize);
-
-    console.log("ray=", camRay);
 
     pointLightActive.position.set(pointer.x * perspWidth / 2, pointer.y * perspHeight / 2, dist / 4);
     // pointLightActive.position.set(0, 0, dist / 4);
