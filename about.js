@@ -191,7 +191,7 @@ function init() {
 
             boxTexts = new THREE.Mesh(new TextGeometry('                    PAL\nis a one-member visual duo\n      established in 2016\n   working in the fields of \n      Projection Mapping, \n             New Media \n         and 3D Graphics ', {
                 font: font,
-                size: perspWidth / 180,
+                size: perspWidth / 230,
                 height: 0.1,
                 curveSegments: 12,
                 bevelEnabled: true,
