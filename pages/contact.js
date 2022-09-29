@@ -1,7 +1,7 @@
-import { FontLoader } from './lib/FontLoader.js';
-import { VertexNormalsHelper } from './lib/VertexNormalsHelper.js';
-import { TextGeometry } from './lib/TextGeometry.js';
-import { Vector3 } from './lib/three.module.js';
+import { FontLoader } from '../lib/FontLoader.js';
+import { VertexNormalsHelper } from '../lib/VertexNormalsHelper.js';
+import { TextGeometry } from '../lib/TextGeometry.js';
+import { Vector3 } from '../lib/three.module.js';
 
 // SETUP
 let camera, scene, pointLightActive, renderer, stats;
@@ -185,7 +185,7 @@ function init() {
 
     updateTexts = (t) => {
         const loader = new FontLoader();
-        loader.load('./lib/fonts/helvetiker_regular.typeface.json', function (font) {
+        loader.load('../lib/fonts/helvetiker_regular.typeface.json', function (font) {
 
 
 

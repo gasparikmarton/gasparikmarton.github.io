@@ -31,6 +31,7 @@ let numOfBoxes;
 // let raycaster;
 let INTERSECTED;
 let intersected_id;
+let lightDistance = new THREE.Vector3();
 
 
 // UPDATE
@@ -45,17 +46,19 @@ let boxTexts = [];
 let text;
 let pages = ['ABOUT', 'PROJECTION \nMapping', 'EVENTS', 'NEW \nMEDIA', 'SOCIAL', 'CONTACT', 'LINK TO \nSMTH NICE', 'LINK TO \nSMTH NICE', 'LINK TO \n A FRIEND', 'LINK TO \nSMTH NICE', 'LINK TO \n SMTH NICE', 'LINK TO \n A FRIEND', 'LINK TO \nSMTH NICE', 'LINK TO \nSMTH NICE', 'LINK TO \nSMTH NICE', 'LINK TO \nSMTH NICE'];
 let links = [{
-    URL: "about.html"
+    URL: "/pages/about.html"
 }, {
-    URL: "projection_mapping.html"
+    URL: "/pages/projection_mapping.html"
 }, {
-    URL: "events.html"
+    URL: "/pages/events.html"
 }, {
-    URL: "new_media.html"
+    URL: "/pages/new_media.html"
 }, {
-    URL: "social.html"
+    URL: "/pages/social.html"
 }, {
-    URL: "contact.html"
+    URL: "/pages/contact.html"
+}, {
+    URL: "/unscene+undex/undex.html"
 }, {
     URL: "https://www.mumush.world/"
 }, {
@@ -110,15 +113,15 @@ function init() {
     // 
 
     //LIGHT
-    var ambientLight = new THREE.AmbientLight(0xFF0000, 0);
+    var ambientLight = new THREE.AmbientLight(0xFF0000, 0.0);
 
 
     let pointLightStatic = new THREE.PointLight('0xFF0000', 1, 1000);
 
-    pointLightStatic.position.set(0, 0, 150);
-    pointLightStatic.power = 0;
+    pointLightStatic.position.set(0, 0, 50);
+    pointLightStatic.power = 5;
 
-    pointLightStatic.castShadow = true;
+    pointLightStatic.castShadow = false;
     pointLightStatic.shadow.mapSize.width = 1024;
     pointLightStatic.shadow.mapSize.height = 1024;
     pointLightStatic.shadow.camera.near = 0.5;
@@ -126,7 +129,7 @@ function init() {
 
 
 
-    pointLightActive = new THREE.SpotLight(0xff0000, 0.5, 1000, Math.PI / 3, 0.5);
+    pointLightActive = new THREE.SpotLight("#c0b05e", 0.5, 1000, Math.PI / 3, 0.5);
 
     pointLightActive.target.position.set(pointLightActive.position.x, pointLightActive.position.y, 0);
 
@@ -306,13 +309,8 @@ function init() {
                     size: 1,
                     height: 1,
                     curveSegments: 12,
-                    // bevelEnabled: true,
-                    // bevelThickness: 0.05,
-                    // bevelSize: 0.05,
-                    // bevelOffset: 0,
-                    // bevelSegments: 6
                 }),
-                    new THREE.MeshPhongMaterial({ color: 0xffffff, wireframe: false, opacity: 0, transparent: true })))
+                    new THREE.MeshPhongMaterial({ color: "#6c6c87", wireframe: false, opacity: 1, transparent: false })))
 
 
             boxTexts.forEach((x, i) => {
@@ -347,20 +345,6 @@ function init() {
 
 
 
-    // function spherer(x, y) {
-    //     const geometry = new THREE.SphereGeometry(6, 32, 6);
-    //     const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-    //     const sphere = new THREE.Mesh(geometry, material);
-    //     scene.add(sphere);
-    //     sphere.position.set(x, y, 20);
-
-
-    // }
-    // spherer(0, 0);
-    // spherer(-perspWidth / 2, perspHeight / 2)
-
-
-
     // Append Renderer to DOM
     window.addEventListener('resize', onWindowResize);
     document.body.appendChild(renderer.domElement);
@@ -368,6 +352,8 @@ function init() {
     document.addEventListener('mousedown', onDocumentMouseDown);
 
     // animate();
+
+
 
 };
 
@@ -377,8 +363,6 @@ animate();
 
 
 function animate() {
-
-
 
     requestAnimationFrame(animate);
     let raycaster = new THREE.Raycaster();
@@ -404,17 +388,11 @@ function animate() {
             INTERSECTED.material.color.setHex(0xFFFFFF);
             clock.start();
 
-            // if (boxTexts[INTERSECTED.box_id]) {
-            //     INTERSECTED.position.z = 0;
-            //     boxTexts[INTERSECTED.box_id].position.z += Math.sin(clock.getElapsedTime() * 0.5) * 9;
-            //     boxTexts[INTERSECTED.box_id].rotation.z += Math.sin(clock.getElapsedTime() * 0.6) * 0.1;
-
-            // }
         }
         if (boxTexts[INTERSECTED.box_id]) {
             INTERSECTED.position.z = 0;
             boxTexts[INTERSECTED.box_id].position.z = Math.sin(clock.getElapsedTime() * 0.8) * 9;
-            boxTexts[INTERSECTED.box_id].rotation.z = Math.sin(clock.getElapsedTime() * 0.8) * 0.51;
+            //boxTexts[INTERSECTED.box_id].rotation.z = Math.sin(clock.getElapsedTime() * 0.8) * 0.51;
 
         }
 
@@ -428,20 +406,9 @@ function animate() {
             boxTexts[INTERSECTED.box_id].position.z = 0;
             boxTexts[INTERSECTED.box_id].rotation.z = 0;
 
-
             INTERSECTED = null;
-
-
         }
     }
-
-
-
-
-
-
-
-    // console.log(clock.running)
 
 
 
@@ -452,27 +419,17 @@ function animate() {
     }
 
 
-
-
-
-
     render();
 
 };
 
 // Render Loop
 function render() {
-    // pointLightActive.position.set(pointer.x, pointer.y, 0);
-
-
-
-
 
     // Render the scene
     renderer.render(scene, camera);
 };
 
-// render();
 
 
 function onPointerMove(event) {
@@ -480,11 +437,10 @@ function onPointerMove(event) {
     pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
     pointLightActive.position.set(pointer.x * perspWidth / 2, pointer.y * perspHeight / 2, dist / 4);
-    // pointLightActive.position.set(0, 0, dist / 4);
-    pointLightActive.target.position.set(pointer.x * perspWidth / 2, pointer.y * perspHeight / 2, 0);
+    pointLightActive.target.position.set(pointer.x * perspWidth / 2, pointer.y * perspHeight / 2, 0);    
 };
 
-
+//CLICK EVENT
 function onDocumentMouseDown(event) {
     event.preventDefault();
 
@@ -492,13 +448,9 @@ function onDocumentMouseDown(event) {
     if (intersected_id !== null) {
         window.open(boxes[intersected_id].userData.URL, '_self')
     }
-
-
-    // console.log("object=", intersects[0].object)
-    // console.log("asd", boxes[intersected_id])
 }
 
-
+//RESIZE
 function onWindowResize() {
 
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -508,9 +460,24 @@ function onWindowResize() {
 
 }
 
+//DEVICE DETECTION
+if (
+    navigator.userAgent.match(/Android/i) ||
+    navigator.userAgent.match(/iPhone/i)
+  ) {
+    window.onscroll = () => { window.scroll(0, 0); }
+  }
+
+
+
 function randFloat(low, high) {
 
     return low + Math.random() * (high - low);
 
 }
+
+
+
+   
+
 
