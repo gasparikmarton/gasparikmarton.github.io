@@ -44,7 +44,7 @@ let textGeo;
 let font;
 let boxTexts = [];
 let text;
-let pages = ['ABOUT', 'PROJECTION \nMapping', 'EVENTS', 'NEW \nMEDIA', 'SOCIAL', 'CONTACT', 'LINK TO \nSMTH NICE', 'LINK TO \nSMTH NICE', 'LINK TO \n A FRIEND', 'LINK TO \nSMTH NICE', 'LINK TO \n SMTH NICE', 'LINK TO \n A FRIEND', 'LINK TO \nSMTH NICE', 'LINK TO \nSMTH NICE', 'LINK TO \nSMTH NICE', 'LINK TO \nSMTH NICE'];
+let pages = ['ABOUT', 'PROJECTION \nMapping', 'EVENTS', 'NEW \nMEDIA', 'SOCIAL', 'CONTACT', 'FLY', 'LINK TO \nSMTH NICE', 'LINK TO \n A FRIEND', 'LINK TO \nSMTH NICE', 'LINK TO \n SMTH NICE', 'LINK TO \n A FRIEND', 'LINK TO \nSMTH NICE', 'LINK TO \nSMTH NICE', 'LINK TO \nSMTH NICE', 'LINK TO \nSMTH NICE'];
 let links = [{
     URL: "/pages/about.html"
 }, {
@@ -465,7 +465,7 @@ if (
     navigator.userAgent.match(/Android/i) ||
     navigator.userAgent.match(/iPhone/i)
   ) {
-    window.onscroll = () => { window.scroll(0, 0); }
+    window.onscroll = () => { window.scroll(window.scrollX, window.scrollY); }
   }
 
 

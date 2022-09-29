@@ -67,7 +67,7 @@ function init() {
 
 
 
-    pointLightActive = new THREE.PointLight(0xFF0000, 0.5);
+    pointLightActive = new THREE.PointLight("#c0b05e", 0.5);
 
     pointLightActive.castShadow = true;
     pointLightActive.shadow.mapSize.width = 1024;
@@ -167,7 +167,7 @@ function init() {
         buffTest.computeVertexNormals();
 
         // const box = new THREE.BoxGeometry(1, 1, 1);
-        const boxMesh = new THREE.Mesh(buffTest, new THREE.MeshPhongMaterial({ color: 0xFF0000 }));
+        const boxMesh = new THREE.Mesh(buffTest, new THREE.MeshPhongMaterial({ color: "#c0b05e" }));
 
         boxMesh.castShadow = true;
         boxMesh.receiveShadow = true;
