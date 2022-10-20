@@ -1,7 +1,7 @@
-import { FontLoader } from './lib/FontLoader.js';
-import { VertexNormalsHelper } from './lib/VertexNormalsHelper.js';
-import { TextGeometry } from './lib/TextGeometry.js';
-import { Vector3 } from './lib/three.module.js';
+import { FontLoader } from '../lib/FontLoader.js';
+import { VertexNormalsHelper } from '../lib/VertexNormalsHelper.js';
+import { TextGeometry } from '../lib/TextGeometry.js';
+import { Vector3 } from '../lib/three.module.js';
 // import { MathUtils } from './lib/MathUtils';
 
 // SETUP
@@ -94,7 +94,7 @@ function init() {
 
 
 
-    pointLightActive = new THREE.SpotLight(0xff0000, 0.5, 1000, Math.PI / 3, 0.5);
+    pointLightActive = new THREE.SpotLight("#c0b05e", 0.5, 1000, Math.PI / 3, 0.5);
 
     pointLightActive.target.position.set(pointLightActive.position.x, pointLightActive.position.y, 0);
 
@@ -255,7 +255,7 @@ function init() {
 
     updateTexts = (t) => {
         const loader = new FontLoader();
-        loader.load('./lib/fonts/helvetiker_regular.typeface.json', function (font) {
+        loader.load('../lib/fonts/helvetiker_regular.typeface.json', function (font) {
 
 
 

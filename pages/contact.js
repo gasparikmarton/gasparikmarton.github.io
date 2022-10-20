@@ -1,7 +1,7 @@
-import { FontLoader } from './lib/FontLoader.js';
-import { VertexNormalsHelper } from './lib/VertexNormalsHelper.js';
-import { TextGeometry } from './lib/TextGeometry.js';
-import { Vector3 } from './lib/three.module.js';
+import { FontLoader } from '../lib/FontLoader.js';
+import { VertexNormalsHelper } from '../lib/VertexNormalsHelper.js';
+import { TextGeometry } from '../lib/TextGeometry.js';
+import { Vector3 } from '../lib/three.module.js';
 
 // SETUP
 let camera, scene, pointLightActive, renderer, stats;
@@ -67,7 +67,7 @@ function init() {
 
 
 
-    pointLightActive = new THREE.PointLight(0xFF0000, 0.5);
+    pointLightActive = new THREE.PointLight("#c0b05e", 0.5);
 
     pointLightActive.castShadow = true;
     pointLightActive.shadow.mapSize.width = 1024;
@@ -167,7 +167,7 @@ function init() {
         buffTest.computeVertexNormals();
 
         // const box = new THREE.BoxGeometry(1, 1, 1);
-        const boxMesh = new THREE.Mesh(buffTest, new THREE.MeshPhongMaterial({ color: 0xFF0000 }));
+        const boxMesh = new THREE.Mesh(buffTest, new THREE.MeshPhongMaterial({ color: "#c0b05e" }));
 
         boxMesh.castShadow = true;
         boxMesh.receiveShadow = true;
@@ -185,13 +185,13 @@ function init() {
 
     updateTexts = (t) => {
         const loader = new FontLoader();
-        loader.load('./lib/fonts/helvetiker_regular.typeface.json', function (font) {
+        loader.load('../lib/fonts/helvetiker_regular.typeface.json', function (font) {
 
 
 
-            boxTexts = new THREE.Mesh(new TextGeometry('                    PAL\nis a one-member visual duo\n      established in 2016\n   working in the fields of \n      Projection Mapping, \n             New Media \n         and 3D Graphics ', {
+            boxTexts = new THREE.Mesh(new TextGeometry('gasparikmarton@gmail.com', {
                 font: font,
-                size: perspWidth / 230,
+                size: perspWidth / 180,
                 height: 0.1,
                 curveSegments: 12,
                 bevelEnabled: true,
