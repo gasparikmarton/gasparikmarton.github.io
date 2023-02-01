@@ -39,7 +39,7 @@ function updateBoxes() { };
 function updateTexts() { };
 
 
-// TEXT
+// LINKS
 let textGeo;
 let font;
 let boxTexts = [];
@@ -90,7 +90,7 @@ let links = [{
 let textBB = [];
 
 init();
-// animate();
+
 
 function init() {
 
@@ -112,14 +112,14 @@ function init() {
     perspWidth = perspHeight * camera.aspect;           // visible width
     // 
 
-    //LIGHT
+    //LIGHTS
     var ambientLight = new THREE.AmbientLight(0xFF0000, 0.0);
 
 
-    let pointLightStatic = new THREE.PointLight('0xFF0000', 1, 1000);
+    let pointLightStatic = new THREE.PointLight("#6c6c87", 1, 1000);
 
-    pointLightStatic.position.set(0, 0, 50);
-    pointLightStatic.power = 5;
+    pointLightStatic.position.set(0, 0, 500);
+    pointLightStatic.power = 7;
 
     pointLightStatic.castShadow = false;
     pointLightStatic.shadow.mapSize.width = 1024;
@@ -141,11 +141,6 @@ function init() {
 
 
     scene.add(pointLightActive, pointLightActive.target, ambientLight, pointLightStatic);
-
-    // const sphereSize = 1;
-    // const pointLightActiveHelper = new THREE.PointLightHelper(pointLightActive, sphereSize);
-    // scene.add(pointLightActiveHelper);
-    // 
 
 
     // RENDERER
@@ -281,15 +276,8 @@ function init() {
 
             x.userData = links[i];
 
-            // let vnh = new VertexNormalsHelper(x, 50);
-            // scene.add(vnh);
-
         });
         buffTest.computeVertexNormals();
-
-
-
-        // console.log("objects=", boxes)
     };
 
 
@@ -329,14 +317,7 @@ function init() {
 
                 x.scale.set(boxScales[i].x / 10, boxScales[i].y / 10, boxScales[i].z / 10);
                 x.position.set(boxPositions[i].x, boxPositions[i].y, boxPositions[i].z + 10);
-
-
-
             })
-
-
-
-
         });
     }
     updateTexts();
@@ -344,23 +325,14 @@ function init() {
     planar();
 
 
-
     // Append Renderer to DOM
     window.addEventListener('resize', onWindowResize);
     document.body.appendChild(renderer.domElement);
     document.addEventListener('pointermove', onPointerMove);
     document.addEventListener('mousedown', onDocumentMouseDown);
-
-    // animate();
-
-
-
 };
 
 animate();
-
-
-
 
 function animate() {
 
@@ -467,8 +439,6 @@ if (
   ) {
     window.onscroll = () => { window.scroll(window.scrollX, window.scrollY); }
   }
-
-
 
 function randFloat(low, high) {
 
