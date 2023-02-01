@@ -1,8 +1,15 @@
 html,
 body {
     background-color: black;
+    color: rgb(159, 159, 159);
+    font-family: Helvetica, Sans-Serif;
     margin: 0;
-    padding: 0;
+    padding: 10px;
+}
+
+h1 {
+    color: rgb(159, 159, 159);
+    top:10px;
 }
 
 .videoWrap {
@@ -14,10 +21,10 @@ body {
 
 .videoWrap iframe {
 position: absolute;
-left: 0px;
-top: 0px;
-right: 0px;
-bottom: 0px;
+left: 10px;
+top: px;
+right: 10px;
+bottom: 10px;
 height: 100%;
 width: 100%;
 }
