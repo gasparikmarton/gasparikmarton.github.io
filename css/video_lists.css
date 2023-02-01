@@ -11,6 +11,10 @@ h1 {
     color: rgb(159, 159, 159);
     top:10px;
 }
+p {
+    max-resolution: 10%;
+    font-size: 1px;
+}
 
 .videoWrap {
     position: relative;
