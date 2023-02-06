@@ -32,3 +32,37 @@ bottom: 10px;
 height: 100%;
 width: 100%;
 }
+
+.tab {
+    tab-size: 4;
+}
+
+tab1 { padding-left: 2em; }
+
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+  }
+  
+  td, th {
+    border: 1px solid rgb(159, 159, 159);
+    border-style:dashed;
+    padding: 10px 20px;
+  }
+  
+  th {
+    background-color: rgb(0, 0, 0);
+  }
+  
+  td {
+    text-align: center;
+  }
+  
+  tr:nth-child(even) td {
+    background-color: rgb(0, 0, 0);
+  }
+  
+  tr:nth-child(odd) td {
+    background-color: rgb(0, 0, 0);
+  }
+  
