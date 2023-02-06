@@ -43,9 +43,9 @@ let textGeo;
 let font;
 let boxTexts = [];
 let text;
-let pages = ['Facebook', 'Behance'];
+let pages = ['Instagram', 'Behance'];
 let links = [{
-    URL: "https://www.facebook.com/vizupal"
+    URL: "https://www.instagram.com/vizupal/"
 }, {
     URL: "https://www.behance.net/gasparikmad173"
 }, {
@@ -102,7 +102,7 @@ function init() {
     pointLightActive.shadow.mapSize.width = 1024;
     pointLightActive.shadow.mapSize.height = 1024;
     pointLightActive.shadow.camera.near = 0.5;
-    pointLightActive.shadow.camera.far = 600;
+    pointLightActive.shadow.camera.far = 6000;
 
 
     scene.add(pointLightActive, pointLightActive.target, ambientLight, pointLightStatic);
@@ -126,7 +126,7 @@ function init() {
 
 
 
-    let colors = [/*'	#000000', '#7b7d7b', '#969696', '#bfbfbf',*/ '#ffffff'];
+    let colors = [/*'	#000000', '#7b7d7b', '#969696', '#bfbfbf',*/ '#c0b05e'];
 
 
     function planar() {
